@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function Contatos() {
+export default function PontoColeta() {
   return (
     <View style={styles.container}>
-      <Text>Contatos Úteis</Text>
+      <Text>Locais de Ajuda</Text>
     </View>
   );
 }

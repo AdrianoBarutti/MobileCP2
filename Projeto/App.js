@@ -1,22 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomeScreen from './src/screens/Inicio';
-import LocaisAjudaScreen from './src/screens/Locais';
-import ContatosUteisScreen from './src/screens/Contatos';
-import FormularioScreen from './src/screens/FormDoacao';
+import LocaisAjudaScreen from './src/screens/PontoColeta';
+import ContatosUteisScreen from './src/screens/ComoReciclar';
+import FormularioScreen from './src/screens/FormRec';
 import DesenvolvedoresScreen from './src/screens/Desenvolvedores';
 
 const Stack = createNativeStackNavigator();
 
-function WelcomeScreen({ navigation }) {
+function Home({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Button title="Ir para Home" onPress={() => navigation.navigate('Home')} />
-      <StatusBar style="auto" />
+      <Text style={styles.title}>Bem-vindo ao ReciclaTec</Text>
+      <Text style={styles.subtitle}>Transformando resíduos em oportunidades</Text>
+
+      <View style={styles.bannerContainer}>
+        <TouchableOpacity 
+          style={styles.banner} 
+          onPress={() => navigation.navigate('LocaisAjuda')}
+        >
+          <Text style={styles.bannerText}>Pontos de Coleta</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.banner} 
+          onPress={() => navigation.navigate('ContatosUteis')}
+        >
+          <Text style={styles.bannerText}>Como Reciclar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.banner} 
+          onPress={() => navigation.navigate('Formulario')}
+        >
+          <Text style={styles.bannerText}>Formulário de Doação</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.banner} 
+          onPress={() => navigation.navigate('Desenvolvedores')}
+        >
+          <Text style={styles.bannerText}>Sobre os Desenvolvedores</Text>
+        </TouchableOpacity>
+      </View>
+
+      <StatusBar style="light" />
     </View>
   );
 }
@@ -24,9 +54,13 @@ function WelcomeScreen({ navigation }) {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
-        <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ title: 'Início' }} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false, // Remove o header de todas as telas
+        }}
+      >
+        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="LocaisAjuda" component={LocaisAjudaScreen} />
         <Stack.Screen name="ContatosUteis" component={ContatosUteisScreen} />
         <Stack.Screen name="Formulario" component={FormularioScreen} />
@@ -39,8 +73,46 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff', // Fundo branco
+    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#418B4F',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#418B4F',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  bannerContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  banner: {
+    width: '90%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginBottom: 15,
+    paddingVertical: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  bannerText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#185a9d',
+    textAlign: 'center',
   },
 });

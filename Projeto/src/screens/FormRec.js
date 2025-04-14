@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function Locais() {
+export default function FormRec() {
   return (
     <View style={styles.container}>
-      <Text>Locais de Ajuda</Text>
+      <Text>Formulário</Text>
     </View>
   );
 }
@@ -14,3 +14,4 @@ const styles = StyleSheet.create({
     flex: 1, alignItems: 'center', justifyContent: 'center'
   }
 });
+  
