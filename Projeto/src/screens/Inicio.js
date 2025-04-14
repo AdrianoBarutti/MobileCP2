@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function HomeScreen({ navigation }) {
+export default function Inicio({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Ajuda Rápida</Text>

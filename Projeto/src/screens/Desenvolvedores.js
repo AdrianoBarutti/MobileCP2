@@ -23,7 +23,7 @@ const developers = [
   }
 ];
 
-export default function DesenvolvedoresScreen() {
+export default function Desenvolvedores() {
   return (
     <View style={styles.page}>
       <View style={styles.cardContainer}>

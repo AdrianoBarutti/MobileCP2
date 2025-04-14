@@ -3,11 +3,11 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomeScreen from './src/screens/HomeScreen';
-import LocaisAjudaScreen from './src/screens/LocaisAjudaScreen';
-import ContatosUteisScreen from './src/screens/ContatosUteisScreen';
-import FormularioScreen from './src/screens/FormularioScreen';
-import DesenvolvedoresScreen from './src/screens/DesenvolvedoresScreen';
+import HomeScreen from './src/screens/Inicio';
+import LocaisAjudaScreen from './src/screens/Locais';
+import ContatosUteisScreen from './src/screens/Contatos';
+import FormularioScreen from './src/screens/FormDoacao';
+import DesenvolvedoresScreen from './src/screens/Desenvolvedores';
 
 const Stack = createNativeStackNavigator();
 
