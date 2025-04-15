@@ -36,15 +36,6 @@ export default function ComoReciclar({ navigation }) {
           style={styles.image}
           resizeMode="contain"
         />
-        {/* Container dos links clicáveis em linha */}
-        <View style={styles.linksRow}>
-          <TouchableOpacity onPress={() => navigation.navigate('ResiduosComuns')}>
-            <Text style={styles.linkText}>Resíduos comuns</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('MatReciclaveis')}>
-            <Text style={styles.linkText}>Materiais recicláveis ♻️</Text>
-          </TouchableOpacity>
-        </View>
       </View>
 
       <View style={styles.divider} />
@@ -153,19 +144,5 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     marginTop: 10,
-  },
-  linksRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  linkText: {
-    fontSize: 18,
-    color: '#418B4F',
-    textDecorationLine: 'underline',
-    fontWeight: 'bold',
-    marginHorizontal: 30,
-    textAlign: 'center',
   },
 });

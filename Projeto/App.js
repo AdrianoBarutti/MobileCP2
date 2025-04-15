@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, StatusBar } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, StatusBar, Image, ImageBackground, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -12,42 +12,80 @@ const Stack = createNativeStackNavigator();
 
 function Home({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bem-vindo ao ReciclaTec</Text>
-      <Text style={styles.subtitle}>Transformando resíduos em oportunidades</Text>
+    <ImageBackground 
+      source={require('./assets/backgroud.png')}
+      style={styles.background}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.title}>Bem-vindo ao ReciclaTec</Text>
+          <Text style={styles.subtitle}>Transformando resíduos em oportunidades</Text>
 
-      <View style={styles.bannerContainer}>
-        <TouchableOpacity 
-          style={styles.banner} 
-          onPress={() => navigation.navigate('LocaisAjuda')}
-        >
-          <Text style={styles.bannerText}>Pontos de Coleta</Text>
-        </TouchableOpacity>
+          <View style={styles.bannerContainer}>
+            {/* Botão "Pontos de Coleta" */}
+            <TouchableOpacity 
+              style={styles.banner} 
+              onPress={() => navigation.navigate('LocaisAjuda')}
+            >
+              <Image 
+                source={require('./assets/coleta.png')}
+                style={styles.bannerImage}
+              />
+              <Text style={styles.bannerText}>Pontos de Coleta</Text>
+              <Text style={styles.bannerDescription}>
+                Encontre locais próximos para reciclagem e descarte responsável.
+              </Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={styles.banner} 
-          onPress={() => navigation.navigate('ContatosUteis')}
-        >
-          <Text style={styles.bannerText}>Como Reciclar</Text>
-        </TouchableOpacity>
+            {/* Botão "Como Reciclar" */}
+            <TouchableOpacity 
+              style={styles.banner} 
+              onPress={() => navigation.navigate('ContatosUteis')}
+            >
+              <Image 
+                source={require('./assets/ComReciclar.png')}
+                style={styles.bannerImage}
+              />
+              <Text style={styles.bannerText}>Como Reciclar</Text>
+              <Text style={styles.bannerDescription}>
+                Descubra técnicas e dicas para reciclar corretamente seus resíduos.
+              </Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={styles.banner} 
-          onPress={() => navigation.navigate('Formulario')}
-        >
-          <Text style={styles.bannerText}>Formulário de Doação</Text>
-        </TouchableOpacity>
+            {/* Botão "Formulário de Doação" */}
+            <TouchableOpacity 
+              style={styles.banner} 
+              onPress={() => navigation.navigate('Formulario')}
+            >
+              <Image 
+                source={require('./assets/form.png')}
+                style={styles.bannerImage}
+              />
+              <Text style={styles.bannerText}>Formulário de Doação</Text>
+              <Text style={styles.bannerDescription}>
+                Preencha o formulário para contribuir e fazer a diferença.
+              </Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={styles.banner} 
-          onPress={() => navigation.navigate('Desenvolvedores')}
-        >
-          <Text style={styles.bannerText}>Sobre os Desenvolvedores</Text>
-        </TouchableOpacity>
-      </View>
-
-      <StatusBar style="light" />
-    </View>
+            {/* Botão "Sobre os Desenvolvedores" */}
+            <TouchableOpacity 
+              style={styles.banner} 
+              onPress={() => navigation.navigate('Desenvolvedores')}
+            >
+              <Image 
+                source={require('./assets/Desenvolvedores.png')}
+                style={styles.bannerImage}
+              />
+              <Text style={styles.bannerText}>Sobre os Desenvolvedores</Text>
+              <Text style={styles.bannerDescription}>
+                Conheça os integrantes que fizeram parte desse projeto.
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <StatusBar barStyle="light-content" />
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
@@ -57,9 +95,10 @@ export default function App() {
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
-          headerStyle: { backgroundColor: '#185a9d' }, // Fundo azul escuro no header
-          headerTintColor: '#fff', // Texto branco no header
-          headerTitleStyle: { fontWeight: 'bold' }, // Título em negrito no header
+          // Header com uma cor muito fraca para não "comer" parte da tela:
+          headerStyle: { backgroundColor: 'rgba(24,90,157, 0.1)' },
+          headerTintColor: '#fff',
+          headerTitleStyle: { fontWeight: 'bold' },
         }}
       >
         <Stack.Screen name="Home" component={Home} options={{ title: 'Início' }} />
@@ -73,12 +112,20 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    backgroundColor: '#ffffff', // Fundo branco
+    width: '100%',
+    height: '100%',
+  },
+  container: {
+    flexGrow: 1,
     padding: 20,
+    // Adiciona padding no topo para evitar que o conteúdo fique escondido atrás do header fixo
+    paddingTop: 120,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  content: {
+    alignItems: 'center',
   },
   title: {
     fontSize: 28,
@@ -98,23 +145,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   banner: {
-    width: '90%',
+    width: '100%',
     backgroundColor: '#fff',
-    borderRadius: 10,
-    marginBottom: 15,
+    borderRadius: 8,
     paddingVertical: 20,
-    justifyContent: 'center',
+    paddingHorizontal: 20,
+    marginBottom: 15,
+    flexDirection: 'column',
     alignItems: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    elevation: 3,
+    shadowColor: '#D6E4E4',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
+  },
+  bannerImage: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain',
+    marginBottom: 10,
   },
   bannerText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#185a9d',
+    color: '#418B4F',
     textAlign: 'center',
+  },
+  bannerDescription: {
+    fontSize: 14,
+    color: '#A8A8A8',
+    textAlign: 'center',
+    marginTop: 5,
   },
 });
