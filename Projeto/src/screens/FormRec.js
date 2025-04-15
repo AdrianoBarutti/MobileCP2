@@ -1,186 +1,253 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, Alert, Image, Picker } from 'react-native';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  Button, 
+  Image, 
+  StyleSheet, 
+  ImageBackground 
+} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
-export default function FormRec() {
-  const formatarData = (valor) => {
-    // Remove tudo que não é número
-    const numeros = valor.replace(/\D/g, '');
-
-    // Aplica a máscara DD-MM-YYYY
-    let formatado = '';
-    if (numeros.length <= 2) {
-      formatado = numeros;
-    } else if (numeros.length <= 4) {
-      formatado = `${numeros.slice(0, 2)}-${numeros.slice(2)}`;
-    } else {
-      formatado = `${numeros.slice(0, 2)}-${numeros.slice(2, 4)}-${numeros.slice(4, 8)}`;
-    }
-
-    return formatado;
-  };
-
+const FormularioDoacao = () => {
   const [formData, setFormData] = useState({
     nome: '',
     endereco: '',
     horario: '',
-    dia: '', // já incluso
+    dia: '',
     tipoLixo: '',
   });
 
   const [formEnviado, setFormEnviado] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleChange = (field, value) => {
-    if (field === 'dia') {
-      value = formatarData(value);
+  // Valida o horário no formato HH:MM
+  const isValidHorario = (horario) => {
+    const regex = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
+    return regex.test(horario);
+  };
+
+  // Valida a data (DD/MM/YYYY) e garante que seja válida
+  const isValidData = (data) => {
+    const regex = /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+    if (!regex.test(data)) return false;
+
+    const [dia, mes, ano] = data.split('/');
+    const diaInt = parseInt(dia, 10);
+    const mesInt = parseInt(mes, 10);
+    const anoInt = parseInt(ano, 10);
+
+    const date = new Date(anoInt, mesInt - 1, diaInt);
+    return (
+      date.getFullYear() === anoInt &&
+      date.getMonth() + 1 === mesInt &&
+      date.getDate() === diaInt
+    );
+  };
+
+  // Verifica se a data inserida é no futuro
+  const isFutureDate = (data) => {
+    const [dia, mes, ano] = data.split('/');
+    const diaInt = parseInt(dia, 10);
+    const mesInt = parseInt(mes, 10);
+    const anoInt = parseInt(ano, 10);
+    const date = new Date(anoInt, mesInt - 1, diaInt);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return date > today;
+  };
+
+  const handleChange = (name, value) => {
+    if (name === 'horario') {
+      value = value.replace(/\D/g, '');
+      value = value.slice(0, 4);
+      if (value.length > 2) {
+        value = value.replace(/(\d{2})(\d{1,2})/, '$1:$2');
+      }
+    } else if (name === 'dia') {
+      value = value.replace(/\D/g, '');
+      if (value.length >= 5) {
+        value = value.slice(0, 10);
+        value = value.replace(/(\d{2})(\d{2})(\d{1,4})/, '$1/$2/$3');
+      } else if (value.length >= 3) {
+        value = value.replace(/(\d{2})(\d{1,2})/, '$1/$2');
+      }
+      const [dia, mes, ano] = value.split('/');
+      if (ano && ano.length > 4) {
+        value = `${dia}/${mes}/${ano.slice(0, 4)}`;
+      }
     }
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Renderiza um campo de entrada sem label, utilizando placeholder dentro da caixa.
+  const renderInput = (label, name, keyboardType = 'default') => {
+    const feminino = ['dia', 'data'].includes(name.toLowerCase());
+    const placeholderPrefix = feminino ? 'Digite a' : 'Digite o';
+    const placeholder = `${placeholderPrefix} ${label.toLowerCase()}`;
+    return (
+      <View style={styles.inputContainer} key={name}>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => handleChange(name, text)}
+          value={formData[name]}
+          placeholder={placeholder}
+          placeholderTextColor="#B0B7BC"
+          keyboardType={keyboardType}
+          selectionColor="#555555" // Cursor e seleção em cinza escuro
+          underlineColorAndroid="transparent"
+        />
+      </View>
+    );
+  };
+
+  // Renderiza o Picker para "tipoLixo" sem label, com os itens na cor #B0B7BC
+  const renderPicker = () => {
+    return (
+      <View style={styles.inputContainer} key="tipoLixo">
+        <Picker
+          selectedValue={formData.tipoLixo}
+          onValueChange={(itemValue) => handleChange('tipoLixo', itemValue)}
+          style={[styles.input, { color: '#B0B7BC' }]}
+        >
+          <Picker.Item label="Selecione" value="" key="empty" color="#B0B7BC" />
+          <Picker.Item label="Plástico" value="Plástico" key="Plástico" color="#B0B7BC" />
+          <Picker.Item label="Papel" value="Papel" key="Papel" color="#B0B7BC" />
+          <Picker.Item label="Vidro" value="Vidro" key="Vidro" color="#B0B7BC" />
+          <Picker.Item label="Metal" value="Metal" key="Metal" color="#B0B7BC" />
+          <Picker.Item label="Orgânico" value="Orgânico" key="Orgânico" color="#B0B7BC" />
+        </Picker>
+      </View>
+    );
   };
 
   const handleSubmit = () => {
-    // Verifica se algum campo está vazio
-    if (!formData.nome || !formData.endereco || !formData.horario || !formData.dia || !formData.tipoLixo) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+    const { horario, dia } = formData;
+    if (!isValidHorario(horario)) {
+      setErrorMessage('Por favor, insira um horário válido no formato hh:mm.');
       return;
     }
-
-    // Verifica se o horário está no formato HH:mm
-    if (!/^\d{2}:\d{2}$/.test(formData.horario)) {
-      Alert.alert('Erro', 'Por favor, insira um horário válido no formato HH:mm.');
+    if (!isValidData(dia)) {
+      setErrorMessage('Por favor, insira uma data válida no formato dd/mm/yyyy.');
       return;
     }
-
-    // Verifica se a data está no formato DD-MM-YYYY
-    if (!/^\d{2}-\d{2}-\d{4}$/.test(formData.dia)) {
-      Alert.alert('Erro', 'Por favor, insira uma data válida no formato DD-MM-YYYY.');
+    if (!isFutureDate(dia)) {
+      setErrorMessage('Por favor, insira uma data futura.');
       return;
     }
-
+    setErrorMessage('');
     setFormEnviado(true);
-    console.log('Dados enviados:', formData);
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../../assets/fm-cont.png')}
-        style={styles.image}
-      />
-      <Text style={styles.title}>Formulário de Reciclagem</Text>
-
-      {!formEnviado ? (
-        <View style={styles.form}>
-          {renderInputLabel('Nome', 'nome', formData.nome, handleChange)}
-          {renderInputLabel('Endereço', 'endereco', formData.endereco, handleChange)}
-          {renderInputLabel('Horário de Coleta', 'horario', formData.horario, handleChange, 'numeric')}
-          {renderInputLabel('Data da Coleta', 'dia', formData.dia, handleChange, 'numeric')}
-          {renderPickerLabel('Tipo de Lixo', 'tipoLixo', formData.tipoLixo, handleChange)}
-          <Button title="Enviar" onPress={handleSubmit} color="#418B4F" />
-        </View>
-      ) : (
-        <View style={styles.confirmation}>
-          <Text style={styles.successMessage}>✅ Formulário enviado com sucesso!</Text>
-          <Image
-            source={require('../../assets/agradecimentoImagem.png')} // Caminho para sua imagem
-            style={styles.successImage}
-          />
-        </View>
-      )}
-    </View>
-  );
-}
-
-const renderInputLabel = (label, field, value, onChange, keyboardType = 'default') => (
-  <View style={styles.inputContainer} key={field}>
-    <Text style={styles.label}>{label}</Text>
-    <TextInput
-      style={styles.input}
-      value={value}
-      onChangeText={(text) => onChange(field, text)}
-      keyboardType={keyboardType}
-      placeholder={`Digite o ${label.toLowerCase()}`}
-    />
-  </View>
-);
-
-const renderPickerLabel = (label, field, value, onChange) => (
-  <View style={styles.inputContainer} key={field}>
-    <Text style={styles.label}>{label}</Text>
-    <Picker
-      selectedValue={value}
-      onValueChange={(itemValue) => onChange(field, itemValue)}
-      style={styles.input}
+    <ImageBackground
+      source={require('../../assets/backgroud.png')}
+      style={styles.background}
     >
-      <Picker.Item label="Selecione" value="" />
-      <Picker.Item label="Plástico" value="Plástico" />
-      <Picker.Item label="Papel" value="Papel" />
-      <Picker.Item label="Vidro" value="Vidro" />
-      <Picker.Item label="Metal" value="Metal" />
-      <Picker.Item label="Orgânico" value="Orgânico" />
-    </Picker>
-  </View>
-);
+      <View style={[styles.container, formEnviado ? styles.enviadoContainer : null]}>
+        {!formEnviado ? (
+          <>
+            <Image
+              source={require('../../assets/fm-cont.png')}
+              style={styles.image}
+            />
+            <Text style={styles.title}>Formulário de Reciclagem</Text>
+            <View style={styles.card}>
+              {renderInput('Nome', 'nome')}
+              {renderInput('Endereço', 'endereco')}
+              {renderInput('Horário de Coleta', 'horario', 'numeric')}
+              {renderInput('Data da Coleta', 'dia', 'numeric')}
+              {renderPicker()}
+              {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
+              <View style={{ marginTop: 10 }}>
+                <Button title="Enviar" onPress={handleSubmit} color="#418B4F" />
+              </View>
+            </View>
+          </>
+        ) : (
+          <View style={styles.confirmation}>
+            <Text style={styles.successMessage}>✅ Formulário enviado com sucesso!</Text>
+            <Image
+              source={require('../../assets/agradecimentoImagem.png')}
+              style={styles.successImage}
+            />
+          </View>
+        )}
+      </View>
+    </ImageBackground>
+  );
+};
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
     padding: 20,
-    borderRadius: 10,
-    margin: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
   },
-  image: {
-    width: 150,
-    height: 150,
-    alignSelf: 'center',
-    marginBottom: 20,
+  enviadoContainer: {
+    backgroundColor: '#F5F5F5',
   },
   title: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#418B4F',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 15,
   },
-  form: {
-    flex: 1,
-    paddingHorizontal: 10,
+  card: {
+    // Removido o fundo branco
+    backgroundColor: 'transparent',
+    borderRadius: 6,
+    padding: 15,
+    marginTop: 10,
+    elevation: 3,
   },
   inputContainer: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 5,
+    marginBottom: 12,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 16,
-    backgroundColor: '#f9f9f9',
+    // Removido o fundo branco dos inputs
+    backgroundColor: 'transparent',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    color: '#B0B7BC',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    alignSelf: 'center',
+    marginBottom: 10,
+    resizeMode: 'contain',
   },
   confirmation: {
-    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 30,
   },
   successMessage: {
     fontSize: 18,
     color: '#418B4F',
     fontWeight: 'bold',
-    textAlign: 'center',
+    marginBottom: 20,
   },
   successImage: {
-    width: 200,
-    height: 200,
-    marginTop: 40,
+    width: 180,
+    height: 180,
+    resizeMode: 'contain',
+  },
+  errorMessage: {
+    fontSize: 14,
+    color: '#FF0000',
+    fontWeight: 'bold',
+    marginBottom: 15,
   },
 });
+
+export default FormularioDoacao;

@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, Text, Image, Linking, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Linking,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView
+} from 'react-native';
 import vitorKenzo from '../../assets/VitorKenzo.jpg';
 import Adriano from '../../assets/Adriano.jpg';
 import githubIcon from '../../assets/github.png'; // Ícone do GitHub
@@ -21,48 +29,58 @@ const developers = [
     github: 'https://github.com/AdrianoBarutti',
     linkedin: 'https://www.linkedin.com/in/adriano-barutti-pessuto/',
     isLocal: true,
-  }
+  },
 ];
 
 export default function Desenvolvedores() {
   return (
-    <View style={styles.page}>
-      <View style={styles.cardContainer}>
-        {developers.map((dev, index) => (
-          <View key={index} style={styles.card}>
-            <Image
-              source={dev.isLocal ? dev.image : { uri: dev.image }}
-              style={styles.image}
-            />
-            <Text style={styles.name}>{dev.name}</Text>
-            <Text style={styles.role}>{dev.role}</Text>
-            <View style={styles.links}>
-              <TouchableOpacity onPress={() => Linking.openURL(dev.github)}>
-                <Image source={githubIcon} style={styles.icon} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => Linking.openURL(dev.linkedin)}>
-                <Image source={linkedinIcon} style={styles.icon} />
-              </TouchableOpacity>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      {/* Caso deseje manter um container com dimensões fixas, pode-se utilizar o "scaleContainer".
+          Porém, para responsividade, considere usar flex ou dimensões relativas */}
+      <View style={styles.page}>
+        <View style={styles.cardContainer}>
+          {developers.map((dev, index) => (
+            <View key={index} style={styles.card}>
+              <Image
+                source={dev.isLocal ? dev.image : { uri: dev.image }}
+                style={styles.image}
+              />
+              <Text style={styles.name}>{dev.name}</Text>
+              <Text style={styles.role}>{dev.role}</Text>
+              <View style={styles.links}>
+                <TouchableOpacity onPress={() => Linking.openURL(dev.github)}>
+                  <Image source={githubIcon} style={styles.icon} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => Linking.openURL(dev.linkedin)}>
+                  <Image source={linkedinIcon} style={styles.icon} />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 20,
+    backgroundColor: '#f2f2f2',
+    alignItems: 'center'
+  },
   page: {
     flex: 1,
-    backgroundColor: '#f2f2f2',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  // Remova "gap" e adicione margin nos cards para espaçá-los
   cardContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap', // Permite que os cards desçam para a próxima linha em telas menores
     justifyContent: 'center',
-    alignItems: 'center',
-    gap: 30,
   },
   card: {
     alignItems: 'center',
@@ -71,6 +89,7 @@ const styles = StyleSheet.create({
     padding: 30,
     height: 500,
     width: 300,
+    margin: 15, // Margem para separar os cards
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
@@ -80,16 +99,17 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
-    borderRadius: 60,
+    borderRadius: 100, // Torna a imagem circular, se for quadrada
     marginBottom: 20,
   },
   name: {
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 20,
+    textAlign: 'center',
   },
   role: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#555',
     marginBottom: 20,
     textAlign: 'center',
@@ -97,11 +117,10 @@ const styles = StyleSheet.create({
   links: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 20,
   },
   icon: {
     width: 40,
     height: 40,
-    marginHorizontal: 10,
+    marginHorizontal: 10, // Espaçamento horizontal entre os ícones
   },
 });
