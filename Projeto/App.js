@@ -57,14 +57,16 @@ export default function App() {
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
-          headerShown: false, // Remove o header de todas as telas
+          headerStyle: { backgroundColor: '#185a9d' }, // Fundo azul escuro no header
+          headerTintColor: '#fff', // Texto branco no header
+          headerTitleStyle: { fontWeight: 'bold' }, // Título em negrito no header
         }}
       >
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="LocaisAjuda" component={LocaisAjudaScreen} />
-        <Stack.Screen name="ContatosUteis" component={ContatosUteisScreen} />
-        <Stack.Screen name="Formulario" component={FormularioScreen} />
-        <Stack.Screen name="Desenvolvedores" component={DesenvolvedoresScreen} />
+        <Stack.Screen name="Home" component={Home} options={{ title: 'Início' }} />
+        <Stack.Screen name="LocaisAjuda" component={LocaisAjudaScreen} options={{ title: 'Locais de Ajuda' }} />
+        <Stack.Screen name="ContatosUteis" component={ContatosUteisScreen} options={{ title: 'Contatos Úteis' }} />
+        <Stack.Screen name="Formulario" component={FormularioScreen} options={{ title: 'Formulário de Doação' }} />
+        <Stack.Screen name="Desenvolvedores" component={DesenvolvedoresScreen} options={{ title: 'Desenvolvedores' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

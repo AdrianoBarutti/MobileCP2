@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, Image, Linking, TouchableOpacity, StyleSheet } from 'react-native';
 import vitorKenzo from '../../assets/VitorKenzo.jpg';
 import Adriano from '../../assets/Adriano.jpg';
-
+import githubIcon from '../../assets/github.png'; // Ícone do GitHub
+import linkedinIcon from '../../assets/linkedin.png'; // Ícone do LinkedIn
 
 const developers = [
   {
@@ -37,10 +38,10 @@ export default function Desenvolvedores() {
             <Text style={styles.role}>{dev.role}</Text>
             <View style={styles.links}>
               <TouchableOpacity onPress={() => Linking.openURL(dev.github)}>
-                <Text style={styles.linkText}>GitHub</Text>
+                <Image source={githubIcon} style={styles.icon} />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => Linking.openURL(dev.linkedin)}>
-                <Text style={[styles.linkText, { color: '#000' }]}>LinkedIn</Text>
+                <Image source={linkedinIcon} style={styles.icon} />
               </TouchableOpacity>
             </View>
           </View>
@@ -98,8 +99,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 20,
   },
-  linkText: {
-    color: '#000',
-    fontSize: 16,
+  icon: {
+    width: 40,
+    height: 40,
+    marginHorizontal: 10,
   },
 });

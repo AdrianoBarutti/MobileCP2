@@ -1,7 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
-export default function ComoReciclar() {
+export default function ComoReciclar({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Seta para baixo */}
@@ -21,13 +28,23 @@ export default function ComoReciclar() {
           <Text style={styles.stepTitle}>Separe os resíduos</Text>
         </View>
         <Text style={styles.stepDescription}>
-          A primeira coisa que você vai fazer é separar o lixo em dois: comum e reciclável. Portanto, você vai precisar ter duas lixeiras.
+          O primeiro passo para a reciclagem eficiente começa em casa, separando o lixo em dois principais grupos: comum e reciclável.
+          Para isso, você precisará de pelo menos duas lixeiras, identificadas claramente para evitar misturas.
         </Text>
         <Image
           source={require('../../assets/TiposDeLixo.png')}
           style={styles.image}
           resizeMode="contain"
         />
+        {/* Container dos links clicáveis em linha */}
+        <View style={styles.linksRow}>
+          <TouchableOpacity onPress={() => navigation.navigate('ListaResiduosComuns')}>
+            <Text style={styles.linkText}>Resíduos comuns</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ListaMateriaisReciclaveis')}>
+            <Text style={styles.linkText}>Materiais recicláveis ♻️</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.divider} />
@@ -54,7 +71,8 @@ export default function ComoReciclar() {
           <Text style={styles.stepTitle}>Compacte os recicláveis</Text>
         </View>
         <Text style={styles.stepDescription}>
-          O último passo é compactar os resíduos e diminuir ao máximo seu volume. Assim, você economiza e ganha espaço. Amasse as latas, tire o ar das garrafas plásticas, desmonte e dobre as embalagens tetrapack e de papel.
+          O último passo é compactar os resíduos e diminuir ao máximo seu volume. Assim, você economiza e ganha espaço. Amasse as latas, tire o ar das garrafas plásticas,
+          desmonte e dobre as embalagens tetrapack e de papel.
         </Text>
       </View>
     </ScrollView>
@@ -66,12 +84,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     padding: 20,
+    alignItems: 'center', // Centraliza os itens horizontalmente
   },
   arrow: {
     width: 100,
     height: 100,
     alignSelf: 'center',
-    marginBottom: 5,
+    marginBottom: 0,
   },
   title: {
     fontSize: 60,
@@ -81,36 +100,41 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 24,
+    fontSize: 23,
     color: '#418B4F',
+    fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
-    fontFamily: '',
   },
   stepContainer: {
-    marginBottom: 20,
+    marginBottom: 30,
+    width: '90%', // Garante que o conteúdo tenha margem nas laterais e fique centralizado
   },
   stepHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+    justifyContent: 'center',
   },
   stepNumber: {
-    fontSize: 36,
+    fontSize: 60,
     fontWeight: 'bold',
     color: '#418B4F',
     marginRight: 10,
   },
   stepTitle: {
-    fontSize: 20,
+    fontSize: 27,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#4c4c55',
+    textAlign: 'center',
   },
   stepDescription: {
     fontSize: 16,
-    color: '#000000',
+    color: 'rgb(56, 56, 56)',
     lineHeight: 24,
     marginBottom: 10,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   divider: {
     width: '100%',
@@ -122,5 +146,20 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     marginTop: 10,
+  },
+  linksRow: {
+    flexDirection: 'row', // Exibe os links lado a lado
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  linkText: {
+    fontSize: 18,
+    color: '#418B4F',
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    marginHorizontal: 30,
+    textAlign: 'center',
+    
   },
 });
