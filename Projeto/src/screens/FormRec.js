@@ -89,7 +89,7 @@ const FormularioDoacao = () => {
     const placeholderPrefix = feminino ? 'Digite a' : 'Digite o';
     const placeholder = `${placeholderPrefix} ${label.toLowerCase()}`;
     return (
-      <View style={styles.inputContainer} key={name}>
+      <View style={[styles.inputContainer, styles.shadowBox]} key={name}>
         <TextInput
           style={styles.input}
           onChangeText={(text) => handleChange(name, text)}
@@ -97,21 +97,21 @@ const FormularioDoacao = () => {
           placeholder={placeholder}
           placeholderTextColor="#B0B7BC"
           keyboardType={keyboardType}
-          selectionColor="#555555" // Cursor e seleção em cinza escuro
+          selectionColor="#555555"
           underlineColorAndroid="transparent"
         />
       </View>
     );
   };
 
-  // Renderiza o Picker para "tipoLixo" sem label, com os itens na cor #B0B7BC
+  // Renderiza o Picker para "tipoLixo" usando o mesmo estilo dos inputs de texto.
   const renderPicker = () => {
     return (
-      <View style={styles.inputContainer} key="tipoLixo">
+      <View style={[styles.inputContainer, styles.shadowBox]} key="tipoLixo">
         <Picker
           selectedValue={formData.tipoLixo}
           onValueChange={(itemValue) => handleChange('tipoLixo', itemValue)}
-          style={[styles.input, { color: '#B0B7BC' }]}
+          style={styles.input}
         >
           <Picker.Item label="Selecione" value="" key="empty" color="#B0B7BC" />
           <Picker.Item label="Plástico" value="Plástico" key="Plástico" color="#B0B7BC" />
@@ -155,6 +155,7 @@ const FormularioDoacao = () => {
               style={styles.image}
             />
             <Text style={styles.title}>Formulário de Reciclagem</Text>
+            {/* Caixa com sombra e brilho envolvendo os inputs e botão */}
             <View style={styles.card}>
               {renderInput('Nome', 'nome')}
               {renderInput('Endereço', 'endereco')}
@@ -201,23 +202,37 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 15,
   },
+  /* Caixa que envolve as caixas de texto e o botão de enviar */
   card: {
-    // Removido o fundo branco
-    backgroundColor: 'transparent',
+    backgroundColor: '#fff',
     borderRadius: 6,
-    padding: 15,
+    padding: 20,
     marginTop: 10,
-    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.8)',
   },
   inputContainer: {
     marginBottom: 12,
   },
   input: {
-    // Removido o fundo branco dos inputs
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(226, 226, 226, 0.8)',
     paddingHorizontal: 12,
     paddingVertical: 10,
     color: '#B0B7BC',
+    borderRadius: 6,
+  },
+  shadowBox: {
+    borderRadius: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   image: {
     width: 100,

@@ -1,12 +1,13 @@
 import React from 'react';
 import {
+  ImageBackground,
   View,
   Text,
   Image,
   Linking,
   TouchableOpacity,
   StyleSheet,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import vitorKenzo from '../../assets/VitorKenzo.jpg';
 import Adriano from '../../assets/Adriano.jpg';
@@ -34,41 +35,50 @@ const developers = [
 
 export default function Desenvolvedores() {
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      {/* Caso deseje manter um container com dimensões fixas, pode-se utilizar o "scaleContainer".
-          Porém, para responsividade, considere usar flex ou dimensões relativas */}
-      <View style={styles.page}>
-        <View style={styles.cardContainer}>
-          {developers.map((dev, index) => (
-            <View key={index} style={styles.card}>
-              <Image
-                source={dev.isLocal ? dev.image : { uri: dev.image }}
-                style={styles.image}
-              />
-              <Text style={styles.name}>{dev.name}</Text>
-              <Text style={styles.role}>{dev.role}</Text>
-              <View style={styles.links}>
-                <TouchableOpacity onPress={() => Linking.openURL(dev.github)}>
-                  <Image source={githubIcon} style={styles.icon} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => Linking.openURL(dev.linkedin)}>
-                  <Image source={linkedinIcon} style={styles.icon} />
-                </TouchableOpacity>
+    <ImageBackground
+      source={require('../../assets/backgroud.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.page}>
+          <View style={styles.cardContainer}>
+            {developers.map((dev, index) => (
+              <View key={index} style={styles.card}>
+                <Image
+                  source={dev.isLocal ? dev.image : { uri: dev.image }}
+                  style={styles.image}
+                />
+                <Text style={styles.name}>{dev.name}</Text>
+                <Text style={styles.role}>{dev.role}</Text>
+                <View style={styles.links}>
+                  <TouchableOpacity onPress={() => Linking.openURL(dev.github)}>
+                    <Image source={githubIcon} style={styles.icon} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => Linking.openURL(dev.linkedin)}>
+                    <Image source={linkedinIcon} style={styles.icon} />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          ))}
+            ))}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   scrollContainer: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#f2f2f2',
-    alignItems: 'center'
+    alignItems: 'center',
+    // Removido o backgroundColor para que a imagem de fundo seja exibida
   },
   page: {
     flex: 1,
@@ -76,7 +86,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // Remova "gap" e adicione margin nos cards para espaçá-los
   cardContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap', // Permite que os cards desçam para a próxima linha em telas menores
