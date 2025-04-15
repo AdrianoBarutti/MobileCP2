@@ -64,7 +64,7 @@ export default function App() {
       >
         <Stack.Screen name="Home" component={Home} options={{ title: 'Início' }} />
         <Stack.Screen name="LocaisAjuda" component={LocaisAjudaScreen} options={{ title: 'Locais de Ajuda' }} />
-        <Stack.Screen name="ContatosUteis" component={ContatosUteisScreen} options={{ title: 'Contatos Úteis' }} />
+        <Stack.Screen name="ContatosUteis" component={ContatosUteisScreen} options={{ title: 'Como Reciclar' }} />
         <Stack.Screen name="Formulario" component={FormularioScreen} options={{ title: 'Formulário de Doação' }} />
         <Stack.Screen name="Desenvolvedores" component={DesenvolvedoresScreen} options={{ title: 'Desenvolvedores' }} />
       </Stack.Navigator>

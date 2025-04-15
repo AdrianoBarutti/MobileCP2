@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
   Image,
+  ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function ComoReciclar({ navigation }) {
@@ -38,10 +38,10 @@ export default function ComoReciclar({ navigation }) {
         />
         {/* Container dos links clicáveis em linha */}
         <View style={styles.linksRow}>
-          <TouchableOpacity onPress={() => navigation.navigate('ListaResiduosComuns')}>
+          <TouchableOpacity onPress={() => navigation.navigate('ResiduosComuns')}>
             <Text style={styles.linkText}>Resíduos comuns</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('ListaMateriaisReciclaveis')}>
+          <TouchableOpacity onPress={() => navigation.navigate('MatReciclaveis')}>
             <Text style={styles.linkText}>Materiais recicláveis ♻️</Text>
           </TouchableOpacity>
         </View>
@@ -60,6 +60,12 @@ export default function ComoReciclar({ navigation }) {
           Descartar de qualquer jeito pode contaminar outros materiais e inviabilizar a reciclagem.
           Atenção! O importante é o material reciclável estar seco!
         </Text>
+        {/* Imagem adicionada abaixo do segundo passo */}
+        <Image
+          source={require('../../assets/LvndLixo.png')}
+          style={styles.image}
+          resizeMode="contain"
+        />
       </View>
 
       <View style={styles.divider} />
@@ -82,9 +88,9 @@ export default function ComoReciclar({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F0F0F0',
     padding: 20,
-    alignItems: 'center', // Centraliza os itens horizontalmente
+    alignItems: 'center',
   },
   arrow: {
     width: 100,
@@ -108,7 +114,8 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     marginBottom: 30,
-    width: '90%', // Garante que o conteúdo tenha margem nas laterais e fique centralizado
+    width: '90%',
+    backgroundColor: '#F0F0F0',
   },
   stepHeader: {
     flexDirection: 'row',
@@ -148,7 +155,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   linksRow: {
-    flexDirection: 'row', // Exibe os links lado a lado
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
@@ -160,6 +167,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginHorizontal: 30,
     textAlign: 'center',
-    
   },
 });
