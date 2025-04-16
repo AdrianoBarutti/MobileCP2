@@ -22,7 +22,6 @@ function Home({ navigation }) {
           <Text style={styles.subtitle}>Transformando resíduos em oportunidades</Text>
 
           <View style={styles.bannerContainer}>
-            {/* Botão "Pontos de Coleta" */}
             <TouchableOpacity 
               style={styles.banner} 
               onPress={() => navigation.navigate('LocaisAjuda')}
@@ -37,7 +36,6 @@ function Home({ navigation }) {
               </Text>
             </TouchableOpacity>
 
-            {/* Botão "Como Reciclar" */}
             <TouchableOpacity 
               style={styles.banner} 
               onPress={() => navigation.navigate('ContatosUteis')}
@@ -52,7 +50,6 @@ function Home({ navigation }) {
               </Text>
             </TouchableOpacity>
 
-            {/* Botão "Formulário de Doação" */}
             <TouchableOpacity 
               style={styles.banner} 
               onPress={() => navigation.navigate('Formulario')}
@@ -67,7 +64,6 @@ function Home({ navigation }) {
               </Text>
             </TouchableOpacity>
 
-            {/* Botão "Sobre os Desenvolvedores" */}
             <TouchableOpacity 
               style={styles.banner} 
               onPress={() => navigation.navigate('Desenvolvedores')}
@@ -95,14 +91,17 @@ export default function App() {
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
-          // Header com uma cor muito fraca para não "comer" parte da tela:
           headerStyle: { backgroundColor: 'rgba(24,90,157, 0.1)' },
           headerTintColor: '#fff',
           headerTitleStyle: { fontWeight: 'bold' },
         }}
       >
         <Stack.Screen name="Home" component={Home} options={{ title: 'Início' }} />
-        <Stack.Screen name="LocaisAjuda" component={LocaisAjudaScreen} options={{ title: 'Locais de Ajuda' }} />
+        <Stack.Screen 
+          name="LocaisAjuda" 
+          component={LocaisAjudaScreen} 
+          options={{ title: 'Pontos de Coleta' }}
+        />
         <Stack.Screen name="ContatosUteis" component={ContatosUteisScreen} options={{ title: 'Como Reciclar' }} />
         <Stack.Screen name="Formulario" component={FormularioScreen} options={{ title: 'Formulário de Doação' }} />
         <Stack.Screen name="Desenvolvedores" component={DesenvolvedoresScreen} options={{ title: 'Desenvolvedores' }} />
@@ -120,7 +119,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    // Adiciona padding no topo para evitar que o conteúdo fique escondido atrás do header fixo
     paddingTop: 120,
     alignItems: 'center',
   },

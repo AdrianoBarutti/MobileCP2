@@ -2,9 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, ScrollView } from 'react-native';
 import GoogleMapReact from 'google-map-react';
 
-// Componente Marker personalizado para o mapa
+
 const Marker = ({ title, description, onClick, isSelected }) => (
-  // Em dispositivos móveis usamos onTouchEnd; para web, onClick também pode funcionar.
   <View onTouchEnd={onClick} style={styles.marker}>
     <View style={styles.markerCircle} />
     {isSelected && (
@@ -16,17 +15,16 @@ const Marker = ({ title, description, onClick, isSelected }) => (
   </View>
 );
 
-// Função auxiliar para gerar números aleatórios (fixos, via useMemo)
+
 const randomCoordinate = (min, max) =>
   parseFloat((Math.random() * (max - min) + min).toFixed(6));
 
 export default function PontoColeta() {
   const [selectedPoint, setSelectedPoint] = useState(null);
 
-  // Configurações padrão do mapa para a região de São Paulo
+
   const defaultProps = { center: { lat: -23.6, lng: -46.7 }, zoom: 11 };
 
-  // Array com 30 nomes fictícios
   const centerNames = [
     "EcoViva", "VerdeCiclo", "Reciclarte", "GreenHub", "EcoFuturo", "EcoNova", "Recircle",
     "ReciclaPlus", "CicloVerde", "RecicloCenter", "VerdeEco", "Revalorize", "EcoAmigo",
@@ -35,7 +33,7 @@ export default function PontoColeta() {
     "ReciclaMais", "Lixo Zero", "GreenReciclo"
   ];
 
-  // Gera os 30 pontos apenas uma vez com useMemo para que as coordenadas fiquem fixas
+
   const ecoPoints = useMemo(() => {
     return centerNames.map((name, idx) => ({
       id: idx + 1,
@@ -53,7 +51,6 @@ export default function PontoColeta() {
       resizeMode="cover"
     >
       <ScrollView contentContainerStyle={styles.container}>
-        {/* Cabeçalho: exibe a imagem coletalixo.png (tamanho reduzido) */}
         <View style={styles.header}>
           <Image 
             source={require('../../assets/coletalixo.png')}
@@ -62,10 +59,8 @@ export default function PontoColeta() {
           />
         </View>
 
-        {/* Título acima do mapa */}
         <Text style={styles.mapLabel}>PONTOS DE COLETA EM SÃO PAULO</Text>
 
-        {/* Container do Mapa centralizado com sombra */}
         <View style={styles.mapContainer}>
           <GoogleMapReact
             bootstrapURLKeys={{ key: "AIzaSyA3-SxMSACMeydGz2w9nOgKn0YhllMn1Dg" }}
@@ -87,7 +82,6 @@ export default function PontoColeta() {
           </GoogleMapReact>
         </View>
 
-        {/* Área informativa abaixo do mapa */}
         <View style={styles.infoContainer}>
           <Text style={styles.infoTitle}>Sobre os Centros de Descarte</Text>
           <Text style={styles.infoText}>
@@ -103,12 +97,12 @@ export default function PontoColeta() {
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1,               // Ocupa toda a tela
+    flex: 1,              
     width: '100%',
     height: '100%',
   },
   container: {
-    flexGrow: 1,           // Permite que o conteúdo do ScrollView expanda
+    flexGrow: 1,          
     padding: 20,
     alignItems: 'center',
     paddingBottom: 40,
@@ -118,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerImage: {
-    width: 100,   // Tamanho reduzido da imagem de coleta
+    width: 100, 
     height: 100,
   },
   mapLabel: {

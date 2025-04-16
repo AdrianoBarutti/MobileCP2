@@ -22,13 +22,11 @@ const FormularioDoacao = () => {
   const [formEnviado, setFormEnviado] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Valida o horário no formato HH:MM
   const isValidHorario = (horario) => {
     const regex = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
     return regex.test(horario);
   };
 
-  // Valida a data (DD/MM/YYYY) e garante que seja válida
   const isValidData = (data) => {
     const regex = /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
     if (!regex.test(data)) return false;
@@ -46,7 +44,6 @@ const FormularioDoacao = () => {
     );
   };
 
-  // Verifica se a data inserida é no futuro
   const isFutureDate = (data) => {
     const [dia, mes, ano] = data.split('/');
     const diaInt = parseInt(dia, 10);
@@ -83,7 +80,6 @@ const FormularioDoacao = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Renderiza um campo de entrada sem label, utilizando placeholder dentro da caixa.
   const renderInput = (label, name, keyboardType = 'default') => {
     const feminino = ['dia', 'data'].includes(name.toLowerCase());
     const placeholderPrefix = feminino ? 'Digite a' : 'Digite o';
@@ -104,7 +100,6 @@ const FormularioDoacao = () => {
     );
   };
 
-  // Renderiza o Picker para "tipoLixo" usando o mesmo estilo dos inputs de texto.
   const renderPicker = () => {
     return (
       <View style={[styles.inputContainer, styles.shadowBox]} key="tipoLixo">
@@ -155,7 +150,6 @@ const FormularioDoacao = () => {
               style={styles.image}
             />
             <Text style={styles.title}>Formulário de Reciclagem</Text>
-            {/* Caixa com sombra e brilho envolvendo os inputs e botão */}
             <View style={styles.card}>
               {renderInput('Nome', 'nome')}
               {renderInput('Endereço', 'endereco')}
@@ -202,7 +196,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 15,
   },
-  /* Caixa que envolve as caixas de texto e o botão de enviar */
   card: {
     backgroundColor: '#fff',
     borderRadius: 6,
