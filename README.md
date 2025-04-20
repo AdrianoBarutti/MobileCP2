@@ -1,11 +1,5 @@
 ============= PARA ABRIR O PROJETO =============
-abra o terminal
-digite 'cd nome-do-projeto'
-digite 'npm install'
-digite 'npm start'
-digite 'W'
-aperte 'F12' no google 
-coloque nas dimensões '400x832'
+abra o terminal, digite 'cd nome-do-projeto', digite 'npm install', digite 'npm start', digite 'W', aperte 'F12' no google e coloque nas dimensões '400x832'
 =======================//=======================
 🤝 App Doações - Projeto Social com React Native
 Este é um aplicativo mobile desenvolvido com React Native utilizando o Expo, com foco em promover ações sociais através de doações. O projeto foi desenvolvido como parte de um desafio acadêmico, cumprindo diversos critérios técnicos e sociais.
