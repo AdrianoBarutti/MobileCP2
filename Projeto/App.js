@@ -1,5 +1,16 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, StatusBar, Image, ImageBackground, ScrollView } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  StatusBar,
+  Image,
+  ImageBackground,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -10,23 +21,48 @@ import DesenvolvedoresScreen from './src/screens/Desenvolvedores';
 
 const Stack = createNativeStackNavigator();
 
+// Splash personalizada com animação
+function CustomSplash({ navigation }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.replace('Home'); // redireciona para a Home
+    }, 3000); // 3 segundos
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <View style={splashStyles.container}>
+      <Image
+        source={require('./assets/splash-icon.png')}
+        style={splashStyles.logo}
+      />
+      <Text style={splashStyles.text}>Carregando...</Text>
+      <ActivityIndicator size="large" color="#418B4F" />
+    </View>
+  );
+}
+
+// Tela inicial
 function Home({ navigation }) {
   return (
-    <ImageBackground 
+    <ImageBackground
       source={require('./assets/backgroud.png')}
       style={styles.background}
     >
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.content}>
           <Text style={styles.title}>Bem-vindo ao ReciclaTec</Text>
-          <Text style={styles.subtitle}>Transformando resíduos em oportunidades</Text>
+          <Text style={styles.subtitle}>
+            Transformando resíduos em oportunidades
+          </Text>
 
           <View style={styles.bannerContainer}>
-            <TouchableOpacity 
-              style={styles.banner} 
+            <TouchableOpacity
+              style={styles.banner}
               onPress={() => navigation.navigate('LocaisAjuda')}
             >
-              <Image 
+              <Image
                 source={require('./assets/coleta.png')}
                 style={styles.bannerImage}
               />
@@ -36,11 +72,11 @@ function Home({ navigation }) {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
-              style={styles.banner} 
+            <TouchableOpacity
+              style={styles.banner}
               onPress={() => navigation.navigate('ContatosUteis')}
             >
-              <Image 
+              <Image
                 source={require('./assets/ComReciclar.png')}
                 style={styles.bannerImage}
               />
@@ -50,11 +86,11 @@ function Home({ navigation }) {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
-              style={styles.banner} 
+            <TouchableOpacity
+              style={styles.banner}
               onPress={() => navigation.navigate('Formulario')}
             >
-              <Image 
+              <Image
                 source={require('./assets/form.png')}
                 style={styles.bannerImage}
               />
@@ -64,11 +100,11 @@ function Home({ navigation }) {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
-              style={styles.banner} 
+            <TouchableOpacity
+              style={styles.banner}
               onPress={() => navigation.navigate('Desenvolvedores')}
             >
-              <Image 
+              <Image
                 source={require('./assets/Desenvolvedores.png')}
                 style={styles.bannerImage}
               />
@@ -89,27 +125,45 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Splash"
         screenOptions={{
           headerStyle: { backgroundColor: 'rgba(24,90,157, 0.1)' },
           headerTintColor: '#fff',
           headerTitleStyle: { fontWeight: 'bold' },
         }}
       >
+        <Stack.Screen
+          name="Splash"
+          component={CustomSplash}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Home" component={Home} options={{ title: 'Início' }} />
-        <Stack.Screen 
-          name="LocaisAjuda" 
-          component={LocaisAjudaScreen} 
+        <Stack.Screen
+          name="LocaisAjuda"
+          component={LocaisAjudaScreen}
           options={{ title: 'Pontos de Coleta' }}
         />
-        <Stack.Screen name="ContatosUteis" component={ContatosUteisScreen} options={{ title: 'Como Reciclar' }} />
-        <Stack.Screen name="Formulario" component={FormularioScreen} options={{ title: 'Formulário de Doação' }} />
-        <Stack.Screen name="Desenvolvedores" component={DesenvolvedoresScreen} options={{ title: 'Desenvolvedores' }} />
+        <Stack.Screen
+          name="ContatosUteis"
+          component={ContatosUteisScreen}
+          options={{ title: 'Como Reciclar' }}
+        />
+        <Stack.Screen
+          name="Formulario"
+          component={FormularioScreen}
+          options={{ title: 'Formulário de Doação' }}
+        />
+        <Stack.Screen
+          name="Desenvolvedores"
+          component={DesenvolvedoresScreen}
+          options={{ title: 'Desenvolvedores' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
+// Estilos da tela inicial
 const styles = StyleSheet.create({
   background: {
     flex: 1,
@@ -174,5 +228,26 @@ const styles = StyleSheet.create({
     color: '#A8A8A8',
     textAlign: 'center',
     marginTop: 5,
+  },
+});
+
+// Estilos da splash
+const splashStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    marginBottom: 20,
+    resizeMode: 'contain',
+  },
+  text: {
+    fontSize: 18,
+    color: '#418B4F',
+    marginBottom: 10,
   },
 });
