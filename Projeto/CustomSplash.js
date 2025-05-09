@@ -14,7 +14,7 @@ export default function CustomSplash({ navigation }) {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/icon.jpg')}
+        source={require('./assets/splash-icon.png')}
         style={styles.logo}
       />
       <Text style={styles.text}>Carregando...</Text>
