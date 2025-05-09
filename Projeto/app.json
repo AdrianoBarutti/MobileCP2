@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -27,10 +27,17 @@
         "googleMaps": {
           "apiKey": "AIzaSyA3-SxMSACMeydGz2w9nOgKn0YhllMn1Dg"
         }
-      }
+      },
+      "package": "com.vitorkenzoo.Projeto"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3b5c0e60-6f89-4bf4-ac1f-70bbdad1a82d"
+      }
+    },
+    "owner": "vitorkenzoo"
   }
 }
